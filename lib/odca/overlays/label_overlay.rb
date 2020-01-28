@@ -81,17 +81,10 @@ module Odca
         end
 
         def call
-          category = Odca::NullValue.new
-          label = Odca::NullValue.new
+          splited = value.split('|').map(&:strip)
 
-          splited = value.split('|')
-          case splited.length
-          when 1
-            label = value.strip
-          when 2
-            category = splited[0].strip
-            label = splited[1].strip
-          end
+          label = splited.empty? ? Odca::NullValue.new : splited.pop
+          category = splited.empty? ? Odca::NullValue.new : splited[0]
 
           {
             attr_name: attr_name.strip,
